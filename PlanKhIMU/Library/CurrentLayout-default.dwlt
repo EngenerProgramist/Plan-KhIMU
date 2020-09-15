@@ -711,13 +711,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.0652905, y: -0.8613285, z: 0.11463533, w: 0.49064034}
+    m_Target: {x: 0.07607508, y: -0.8993887, z: 0.17372873, w: 0.39389095}
     speed: 2
-    m_Value: {x: 0.06546176, y: -0.8605834, z: 0.11453619, w: 0.49192718}
+    m_Value: {x: 0.07633486, y: -0.8987883, z: 0.17361277, w: 0.39523584}
   m_Size:
     m_Target: 16.137579
     speed: 2
-    m_Value: 15.442659
+    m_Value: 16.137579
   m_Ortho:
     m_Target: 0
     speed: 2
