@@ -1,55 +1,49 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
+using System;
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
-using System;
 
 
 public class Moving : MonoBehaviour
 {
-    public static Moving Instance { get; private set; }
+    public static Moving Instance;
     private Vector3 lastMouse = new Vector3(255, 255, 255);
     
     float camSens = 0.25f;
-    public IObservable <Vector2> Movement { get; private set; }
-    public IObservable <Vector2> Mouselook { get; private set; }
-
+    public IObservable <Vector2> Movement   { get; private set; }
+    public IObservable <Vector2> Mouselook  { get; private set; }
     public IObservable <Vector2> MouseClick { get; private set; }
+    public IObservable <float>   zoomScroll { get; private set; }
 
-    public IObservable <float> zoomScroll { get; private set; }
-    void Start()
+
+    void Awake()
     {
-        //camera = GetComponent<Camera>();
         Instance = this;
-
-        //zoomScroll = this.FixedUpdateAsObservable()
-        //    .Select(_ => {
-        //    });
         zoomScroll = this.FixedUpdateAsObservable()
-            .Select(_ =>
-            {
-                float x = 0;
-                x = Input.GetAxis("Mouse ScrollWheel");
-                if (Input.GetKey(KeyCode.E))
-                {
-                    x = 1;
-                }
-                if (Input.GetKey(KeyCode.F))
-                {
-                    x = -1;
-                }
+           .Select(_ =>
+           {
+               float x = 0;
+               x = Input.GetAxis("Mouse ScrollWheel");
+               if (Input.GetKey(KeyCode.E))
+               {
+                   x = 1;
+               }
+               if (Input.GetKey(KeyCode.F))
+               {
+                   x = -1;
+               }
                 //print(x);
 
                 return x;//  ("Mouse ScrollWheel");
 
             });
-          
+
         Movement = this.FixedUpdateAsObservable()
             .Select(_ => {
                 var x = Input.GetAxis("Horizontal");
                 var y = Input.GetAxis("Vertical");
-                return new Vector2(y, -x).normalized;
+                return new Vector2(x, y).normalized;
             });
 
         Mouselook = this.UpdateAsObservable()
@@ -61,9 +55,10 @@ public class Moving : MonoBehaviour
 
         MouseClick = this.FixedUpdateAsObservable()
             .Select(_ =>
-            { Vector3 click = Vector3.zero;
-               
-                if (Input.GetMouseButtonDown(0)) 
+            {
+                Vector3 click = Vector3.zero;
+
+                if (Input.GetMouseButtonDown(0))
                 {
                     click = Input.mousePosition;
                 }
@@ -71,6 +66,21 @@ public class Moving : MonoBehaviour
                 Vector2 clickV2 = new Vector2(click.x, click.y);
                 return clickV2;
             });
+
+    }
+    public void PrintC() {
+        print("rty");
+    }
+    void Start()
+    {
+        //camera = GetComponent<Camera>();
+        
+
+        //zoomScroll = this.FixedUpdateAsObservable()
+        //    .Select(_ => {
+        //    });
+
+       
         //MouseClick.Subscribe(s=> { print(s); }).AddTo(this);
 
     }

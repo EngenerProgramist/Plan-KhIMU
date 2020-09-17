@@ -18,13 +18,14 @@ public class CameraMoving : MonoBehaviour
         camera = GetComponent<Camera>();
 
 
-        zoomScroll = this.FixedUpdateAsObservable()
-            .Select(_ => {
-                return Input.GetAxis("Mouse ScrollWheel");
-            });
+///        zoomScroll = this.FixedUpdateAsObservable()
+///            .Select(_ => {
+///                return Input.GetAxis("Mouse ScrollWheel");
+///            });
         zoomScroll = this.FixedUpdateAsObservable()
             .Select(_ => {
                 float x = 0;
+                x = Input.GetAxis("Mouse ScrollWheel");
                 if (Input.GetKey(KeyCode.Q)) {
                     x = 1;
                 }
