@@ -11,10 +11,13 @@ public class Moving : MonoBehaviour
     private Vector3 lastMouse = new Vector3(255, 255, 255);
     
     float camSens = 0.25f;
-    public IObservable <Vector2> Movement   { get; private set; }
-    public IObservable <Vector2> Mouselook  { get; private set; }
-    public IObservable <Vector2> MouseClick { get; private set; }
-    public IObservable <float>   zoomScroll { get; private set; }
+    public IObservable <Vector2> Movement    { get; private set; }
+    public IObservable <Vector2> Mouselook   { get; private set; }
+    public IObservable <Vector2> MouseClickL { get; private set; }
+    public IObservable <Vector2> MouseClickR { get; private set; }
+    public IObservable <Vector2> MouseDragR  { get; private set; }
+    public IObservable <Vector2> MouseDragL  { get; private set; }
+    public IObservable <float>   zoomScroll  { get; private set; }
 
 
     void Awake()
@@ -47,48 +50,74 @@ public class Moving : MonoBehaviour
             });
 
         Mouselook = this.UpdateAsObservable()
-                .Select(_ => {
+             .Select(_ => {
                     var x = Input.GetAxis("Mouse X");
                     var y = Input.GetAxis("Mouse Y");
                     return new Vector2(x, y);
                 });
 
-        MouseClick = this.FixedUpdateAsObservable()
+        MouseClickL = this.FixedUpdateAsObservable()
             .Select(_ =>
             {
-                Vector3 click = Vector3.zero;
-
                 if (Input.GetMouseButtonDown(0))
                 {
-                    click = Input.mousePosition;
+                    Vector2 click = Input.mousePosition;
+                    return click;
                 }
-                //print(clickPlace.position);
-                Vector2 clickV2 = new Vector2(click.x, click.y);
-                return clickV2;
+
+                return Vector2.zero;
             });
 
-    }
-    public void PrintC() {
-        print("rty");
+        MouseClickR = this.FixedUpdateAsObservable()
+            .Select(_ =>
+            {
+                if (Input.GetMouseButtonDown(1))
+                {
+                    Vector2 click = Input.mousePosition;
+                    return click;
+                }
+
+                return Vector2.zero;
+            });
+
+        MouseDragR = this.FixedUpdateAsObservable()
+            .Select(_ =>
+            {
+
+
+                if (Input.GetMouseButton(1))
+                {
+                    Vector2 click = Input.mousePosition;
+                    return click;
+                }
+
+                return Vector2.zero; 
+            });
+                
+
+        MouseDragL = this.FixedUpdateAsObservable()
+            .Select(_ =>
+            {
+
+
+                if (Input.GetMouseButton(0))
+                {
+                    Vector2 click = Input.mousePosition;
+                    return click;
+                }
+
+                return Vector2.zero; 
+            });
+        
+
     }
     void Start()
     {
-        //camera = GetComponent<Camera>();
-        
-
-        //zoomScroll = this.FixedUpdateAsObservable()
-        //    .Select(_ => {
-        //    });
-
-       
-        //MouseClick.Subscribe(s=> { print(s); }).AddTo(this);
-
+    
     }
                 
                 
-       // var role = Observable.EveryUpdate()
-       //     .Where(_ => Input.GetAxis("Mouse ScrollWheel"));
-
+    
     
 
 
