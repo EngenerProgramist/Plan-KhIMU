@@ -26,8 +26,9 @@ public class Moving : MonoBehaviour
     {
         Instance = this;
 
+
         yMoving = this.FixedUpdateAsObservable()
-           .Select(_ =>
+            .Select(_ =>
            {
                float x = 0;
                
@@ -41,12 +42,8 @@ public class Moving : MonoBehaviour
                }
                return x;
            });
-               
-
-
-
         zoomScroll = this.FixedUpdateAsObservable()
-           .Select(_ =>
+            .Select(_ =>
            {
                float x = 0;
                x = Input.GetAxis("Mouse ScrollWheel")*5;
@@ -59,25 +56,20 @@ public class Moving : MonoBehaviour
                    x = -1;
                }
                 //print(x);
-
                 return x;//  ("Mouse ScrollWheel");
-
             });
-
         Movement = this.FixedUpdateAsObservable()
             .Select(_ => {
                 var x = Input.GetAxis("Horizontal");
                 var y = Input.GetAxis("Vertical");
                 return new Vector2(x, y).normalized;
             });
-
         Mouselook = this.UpdateAsObservable()
              .Select(_ => {
                     var x = Input.GetAxis("Mouse X");
                     var y = Input.GetAxis("Mouse Y");
                     return new Vector2(x, y);
                 });
-
         MouseClickL = this.FixedUpdateAsObservable()
             .Select(_ =>
             {
@@ -89,7 +81,6 @@ public class Moving : MonoBehaviour
 
                 return Vector2.zero;
             });
-
         MouseClickR = this.FixedUpdateAsObservable()
             .Select(_ =>
             {
@@ -101,22 +92,16 @@ public class Moving : MonoBehaviour
 
                 return Vector2.zero;
             });
-
         MouseDragR = this.FixedUpdateAsObservable()
             .Select(_ =>
             {
-
-
                 if (Input.GetMouseButton(1))
                 {
                     Vector2 click = Input.mousePosition;
                     return click;
                 }
-
                 return Vector2.zero; 
             });
-                
-
         MouseDragL = this.FixedUpdateAsObservable()
             .Select(_ =>
             {
@@ -130,19 +115,11 @@ public class Moving : MonoBehaviour
 
                 return Vector2.zero; 
             });
-        
-
     }
     void Start()
     {
     
     }
-                
-                
-    
-    
-
-
     void Update()
     {
        // lastMouse = Input.mousePosition - lastMouse;
@@ -151,4 +128,28 @@ public class Moving : MonoBehaviour
        // transform.eulerAngles = lastMouse;
        // lastMouse = Input.mousePosition;
     }
+               
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+
+        
+
+                
+                
+    
+    
+
+

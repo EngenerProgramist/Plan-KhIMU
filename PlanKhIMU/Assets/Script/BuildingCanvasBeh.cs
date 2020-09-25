@@ -22,7 +22,7 @@ public class BuildingCanvasBeh : MonoBehaviour
     {
         currentCanvas   =   GetComponent<Canvas>()          ;
         ceryCanvas      =   GetComponent<RectTransform>()   ;
-        hideCanvas();
+        hideCanvas()                                        ;
     }
     void Start()
     {

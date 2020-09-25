@@ -17,9 +17,6 @@ public class BuildBeh : MonoBehaviour
             .Subscribe(x => {
                 if (canvasDriver.getState())
                 {
-
-
-
                     canvasDriver.hideCanvas();
                 }
                 else { 
@@ -28,5 +25,8 @@ public class BuildBeh : MonoBehaviour
                 }
             });
     }
+
+
+
 
 }
