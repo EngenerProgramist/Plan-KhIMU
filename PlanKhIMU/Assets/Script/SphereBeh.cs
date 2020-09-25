@@ -29,7 +29,7 @@ public class SphereBeh : MonoBehaviour
     public float cameraMaxZoom = 25f;
     [Range(25, 60)]
     public float cameraMinZoom = 60f;
-    private void Awake()
+    void Awake()
     {
         Instance = this;
         
@@ -83,7 +83,6 @@ public class SphereBeh : MonoBehaviour
                 var currentPos = s;
                 var deltaX = currentPos.x - clicPlace.x;
                 var deltaY = currentPos.y - clicPlace.y;
-
                 RotationByPress(
                     new Vector2(deltaX, deltaY)
                     );
@@ -91,65 +90,75 @@ public class SphereBeh : MonoBehaviour
             })
             .AddTo(this);
 
-        /*
-        this.OnMouseDragAsObservable()
-            .Subscribe(s =>
-            {
 
-                print(s);
-                //var objPointInScreen = Camera.main.WorldToScreenPoint(this.transform.position);
-                //var mousePointInScreen
-                //    = new Vector3(Input.mousePosition.x,
-                //        Input.mousePosition.y,
-                //        objPointInScreen.z);
-                //var mousePointInWorld = Camera.main.ScreenToWorldPoint(mousePointInScreen);
-                //mousePointInScreen.z = this.transform.position.z;
-                //this.transform.position = mousePointInWorld;
-            });
-        var cameraView = ObservableTriggerExtensions.OnMouseDragAsObservable(this)
-            .Where( _=>Input.GetKeyDown("Fire2"))
-            .Subscribe(s=> {
-                print("lol");
+        movi.yMoving
+            .Where(y => y != 0)
+            .Subscribe(s => {
+                var ySpeed = s * Vector3.up * Time.deltaTime * speedmov;
+                transform.Translate(ySpeed, Space.World);
             })
             .AddTo(this);
-        
-        movi.Mouselook
-            .Where(v => v != Vector2.zero) // We can ignore this if mouse look is zero.
-            .Subscribe(inputLook => {
-                
-                
-                    // inputLook.x rotates the character around the vertical axis (with + being right)
-                    var horzLook = inputLook.x * Time.deltaTime * Vector3.up * mouseSpeed;
-                    transform.localRotation *= Quaternion.Euler(horzLook);
-
-                    // inputLook.y rotates the camera around the horizontal axis (with + being up)
-                    var vertLook = inputLook.y * Time.deltaTime * Vector3.left * mouseSpeed;
-
-                    var newQ = this.transform.localRotation * Quaternion.Euler(vertLook);
 
 
-                
-                //print(view.transform.localRotation.eulerAngles.ToString());
-                var x = view.transform.localRotation.eulerAngles.x; 
-                if (x>maxViewAngle) {
-                    view.transform.localRotation = Quaternion.Euler(new Vector3(maxViewAngle, view.transform.localRotation.eulerAngles.y,0));
-                }
-                if (x < minViewAngle) {
-                    view.transform.localRotation = Quaternion.Euler(new Vector3(minViewAngle, view.transform.localRotation.eulerAngles.y, 0));
-                }
-                view.transform.localRotation *= Quaternion.Euler(vertLook);
-                // We have to flip the signs and positions of min/max view angle here because the math
-                // uses the contradictory interpretation of our angles (+/- is down/up).
-                //view.transform.localRotation = Quaternion.Euler(view.transform.localRotation.eulerAngles.x, view.transform.localRotation.eulerAngles.y, 0);
-                
-                this.transform.localRotation = ClampRotationAroundXAxis(newQ, -maxViewAngle, -minViewAngle);
-                    //hit.transform.localRotation = ClampRotationAroundXAxis(newQ, -maxViewAngle, -minViewAngle);
-                    //cameraQuan = hit.transform.localRotation.eulerAngles;
-                
-            }).AddTo(this);
-         */
+                /*
+                this.OnMouseDragAsObservable()
+                    .Subscribe(s =>
+                    {
 
-    }
+                        print(s);
+                        //var objPointInScreen = Camera.main.WorldToScreenPoint(this.transform.position);
+                        //var mousePointInScreen
+                        //    = new Vector3(Input.mousePosition.x,
+                        //        Input.mousePosition.y,
+                        //        objPointInScreen.z);
+                        //var mousePointInWorld = Camera.main.ScreenToWorldPoint(mousePointInScreen);
+                        //mousePointInScreen.z = this.transform.position.z;
+                        //this.transform.position = mousePointInWorld;
+                    });
+                var cameraView = ObservableTriggerExtensions.OnMouseDragAsObservable(this)
+                    .Where( _=>Input.GetKeyDown("Fire2"))
+                    .Subscribe(s=> {
+                        print("lol");
+                    })
+                    .AddTo(this);
+
+                movi.Mouselook
+                    .Where(v => v != Vector2.zero) // We can ignore this if mouse look is zero.
+                    .Subscribe(inputLook => {
+
+
+                            // inputLook.x rotates the character around the vertical axis (with + being right)
+                            var horzLook = inputLook.x * Time.deltaTime * Vector3.up * mouseSpeed;
+                            transform.localRotation *= Quaternion.Euler(horzLook);
+
+                            // inputLook.y rotates the camera around the horizontal axis (with + being up)
+                            var vertLook = inputLook.y * Time.deltaTime * Vector3.left * mouseSpeed;
+
+                            var newQ = this.transform.localRotation * Quaternion.Euler(vertLook);
+
+
+
+                        //print(view.transform.localRotation.eulerAngles.ToString());
+                        var x = view.transform.localRotation.eulerAngles.x; 
+                        if (x>maxViewAngle) {
+                            view.transform.localRotation = Quaternion.Euler(new Vector3(maxViewAngle, view.transform.localRotation.eulerAngles.y,0));
+                        }
+                        if (x < minViewAngle) {
+                            view.transform.localRotation = Quaternion.Euler(new Vector3(minViewAngle, view.transform.localRotation.eulerAngles.y, 0));
+                        }
+                        view.transform.localRotation *= Quaternion.Euler(vertLook);
+                        // We have to flip the signs and positions of min/max view angle here because the math
+                        // uses the contradictory interpretation of our angles (+/- is down/up).
+                        //view.transform.localRotation = Quaternion.Euler(view.transform.localRotation.eulerAngles.x, view.transform.localRotation.eulerAngles.y, 0);
+
+                        this.transform.localRotation = ClampRotationAroundXAxis(newQ, -maxViewAngle, -minViewAngle);
+                            //hit.transform.localRotation = ClampRotationAroundXAxis(newQ, -maxViewAngle, -minViewAngle);
+                            //cameraQuan = hit.transform.localRotation.eulerAngles;
+
+                    }).AddTo(this);
+                 */
+
+            }
     private void RotationByPress(Vector2 inputVector) {
         //inputVector.
         var curr = transform.rotation;

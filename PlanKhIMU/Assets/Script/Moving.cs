@@ -7,7 +7,8 @@ using UniRx.Triggers;
 
 public class Moving : MonoBehaviour
 {
-    public static Moving Instance;
+    public static Moving Instance { get; private set; }
+
     private Vector3 lastMouse = new Vector3(255, 255, 255);
     
     float camSens = 0.25f;
@@ -17,22 +18,43 @@ public class Moving : MonoBehaviour
     public IObservable <Vector2> MouseClickR { get; private set; }
     public IObservable <Vector2> MouseDragR  { get; private set; }
     public IObservable <Vector2> MouseDragL  { get; private set; }
-    public IObservable <float>   zoomScroll  { get; private set; }
+    public IObservable  <float> zoomScroll   { get; private set; }
+    public IObservable  <float> yMoving      { get; private set; }
 
 
     void Awake()
     {
         Instance = this;
-        zoomScroll = this.FixedUpdateAsObservable()
+
+        yMoving = this.FixedUpdateAsObservable()
            .Select(_ =>
            {
                float x = 0;
-               x = Input.GetAxis("Mouse ScrollWheel");
+               
                if (Input.GetKey(KeyCode.E))
                {
                    x = 1;
                }
-               if (Input.GetKey(KeyCode.F))
+               if (Input.GetKey(KeyCode.C))
+               {
+                   x = -1;
+               }
+               return x;
+           });
+               
+
+
+
+        zoomScroll = this.FixedUpdateAsObservable()
+           .Select(_ =>
+           {
+               float x = 0;
+               x = Input.GetAxis("Mouse ScrollWheel")*5;
+               if (Input.GetKey(KeyCode.Z))
+               {
+                   x = 1;
+               }
+               if (Input.GetKey(KeyCode.X))
                {
                    x = -1;
                }

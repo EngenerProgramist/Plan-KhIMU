@@ -8,14 +8,19 @@ using System;
 
 public class CameraMoving : MonoBehaviour
 {
+    public static CameraMoving Instance     { get; private set; }
     private Camera camera;
-    public IObservable <Vector2> Movement { get; private set; }
-    public IObservable <Vector2> Mouselook { get; private set; }
+    public IObservable <Vector2> Movement   { get; private set; }
+    public IObservable <Vector2> Mouselook  { get; private set; }
+    public IObservable <float> zoomScroll   { get; private set; }
 
-    public IObservable <float> zoomScroll { get; private set; }
-    void Start()
+    void Awake()
     {
         camera = GetComponent<Camera>();
+    }
+        
+    void Start()
+    {
 
 
 ///        zoomScroll = this.FixedUpdateAsObservable()
@@ -59,6 +64,9 @@ public class CameraMoving : MonoBehaviour
        //     .Where(_ => Input.GetAxis("Mouse ScrollWheel"));
     }
 
+    public Quaternion getCameraAngle() {
+        return camera.transform.rotation;
+    }
     
 
 
