@@ -24,8 +24,6 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
     - UnityEngine.UI.Text
-    com.unity.multiplayer-hlapi.Runtime.dll:
-    - UnityEngine.Networking.NetworkCallbacks
   sceneClasses:
     Assets/Scenes/SampleScene.unity:
     - Class: 1
@@ -73,7 +71,7 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 13620}
     - Class: 114
-      Script: {instanceID: 14206}
+      Script: {instanceID: 14204}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -83,6 +81,8 @@ ScriptsOnlyBuild:
     - Class: 157
       Script: {instanceID: 0}
     - Class: 196
+      Script: {instanceID: 0}
+    - Class: 213
       Script: {instanceID: 0}
     - Class: 222
       Script: {instanceID: 0}
@@ -1006,4 +1006,4 @@ ScriptsOnlyBuild:
   platform: 5
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: E:/Games/prod/planView/PlanKhIMU.exe
+  playerPath: C:/Users/Operator/Desktop/Plan KhIMU alpha 1.0/PlanKhIMU.exe
